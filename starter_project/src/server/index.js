@@ -17,7 +17,8 @@ console.log(__dirname);
 
 
 app.get('/', function (req, res) {
-    res.send("This is the server API page, you may access its services via the client app.");
+    // res.send("This is the server API page, you may access its services via the client app.");
+    res.sendFile('dist/index.html');
 });
 
 
