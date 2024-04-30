@@ -14,21 +14,29 @@ app.use(bodyParser.json());
 console.log(__dirname);
 
 // Variables for url and api key
-
+var apiKey = process.env.API_KEY;
 
 app.get('/', function (req, res) {
-    // res.send("This is the server API page, you may access its services via the client app.");
-    res.sendFile('dist/index.html');
+    res.sendFile(path.resolve('dist/index.html'))
 });
 
 
 // POST Route
-
-
+const baseUrl = 'https://api.meaningcloud.com/sentiment-2.1';
+app.post('/url', async(req, res) => {
+    try{
+        const request = await fetch(`${baseUrl}?key=${apiKey}&url=${req.body}&lang=auto`);
+        const data = await request.json();
+        res.send(data);
+    }catch(error){
+        console.log('errorRetrieveData', error);
+    }
+})
 
 // Designates what port the app will listen to for incoming requests
-app.listen(8000, function () {
-    console.log('Example app listening on port 8000!');
+const port = process.env.PORT;
+app.listen(port, function () {
+    console.log(`App listening on port ${port}!`);
 });
 
 
