@@ -3,7 +3,7 @@ import { isValidUrl } from './urlChecker'
 
 // If working on Udacity workspace, update this with the Server API URL e.g. `https://wfkdhyvtzx.prod.udacity-student-workspaces.com/api`
 // const serverURL = 'https://wfkdhyvtzx.prod.udacity-student-workspaces.com/api'
-const serverURL = 'https://localhost:8000/api'
+const serverURL = 'http://localhost:8080'
 
 const form = document.getElementById('urlForm');
 form.addEventListener('submit', handleSubmit);
@@ -22,23 +22,25 @@ async function handleSubmit(event) {
         alert("Enter a valid URL");
     } else {
     // If the URL is valid, send it to the server using the serverURL constant above
-        await senDataToServer('/url',formText)
-        .then(function(result){
-            updateUI(result);
+        await senDataToServer(serverURL+'/url',{newsUrl: formText})
+        .then(res => res.json())
+        .then((res) => {
+            console.log(`result:${res}`);
+            updateUI(res);
         });
     }
 }
 
 // Function to send data to the server
-const senDataToServer = async (url = '', data = '') => {
+const senDataToServer = async (url = '', data = {}) => {
     try{
-        await fetch(url, {
+        return await fetch(url, {
             method: 'POST',
             credentials: 'same-origin',
-            headers:{
-                'Content-Type':'text/plain'
+            headers: {
+                'Content-Type': 'application/json'
             },
-            body: data
+            body: JSON.stringify(data)
         });
     }catch(error){
         console.log('errorPostData', error);

@@ -9,7 +9,8 @@ const app = express();
 const cors = require('cors');
 
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 console.log(__dirname);
 
@@ -25,8 +26,8 @@ app.get('/', function (req, res) {
 const baseUrl = 'https://api.meaningcloud.com/sentiment-2.1';
 app.post('/url', async(req, res) => {
     try{
-        const request = await fetch(`${baseUrl}?key=${apiKey}&url=${req.body}&lang=auto`);
-        const data = await request.json();
+        const response = await fetch(`${baseUrl}?key=${apiKey}&url=${req.body.newsUrl}&lang=auto`);
+        const data = await response.json();
         res.send(data);
     }catch(error){
         console.log('errorRetrieveData', error);
