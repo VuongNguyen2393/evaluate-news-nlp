@@ -6,7 +6,9 @@ import { isValidUrl } from './urlChecker'
 const serverURL = 'http://localhost:8080'
 
 const form = document.getElementById('urlForm');
-form.addEventListener('submit', handleSubmit);
+if(form){
+    form.addEventListener('submit', handleSubmit);
+}
 
 async function handleSubmit(event) {
     event.preventDefault();
@@ -14,8 +16,6 @@ async function handleSubmit(event) {
     // Get the URL from the input field
     const formText = document.getElementById('name').value;
 
-    // This is an example code that checks the submitted name. You may remove it from your code
-    
     // Check if the URL is valid
     let urlCheckResult = isValidUrl(formText);
     if(!urlCheckResult){
@@ -52,7 +52,7 @@ const updateUI = async(data)=>{
     try{
         document.getElementById('confidence').innerHTML = `Confidence: ${data.confidence}`;
         document.getElementById('irony').innerHTML = `Irony: ${data.irony}`;
-        document.getElementById('score_tag').innerHTML = `Sentiment: ${data.score_tag}`;
+        document.getElementById('score_tag').innerHTML = `Sentiment: ${sentimentTranslator(data.score_tag)}`;
         document.getElementById('subjectivity').innerHTML = `Subjectivity: ${data.subjectivity}`;
         document.getElementById('text').innerHTML = `Text: ${data.sentence_list[0].text}`;
 
@@ -60,6 +60,30 @@ const updateUI = async(data)=>{
         console.log('ErrorUpdateUI:', error);
     }
 }
+// Sentiment translator 
+const sentimentTranslator = (tag) => {
+    let sentiment;
+    switch(tag){
+        case 'P+':
+            sentiment = 'Strong positive';
+            break;
+        case 'P':
+            sentiment = 'Positive';
+            break;
+        case 'NEU':
+            sentiment = 'Neutral';
+            break;
+        case 'N':
+            sentiment = 'Negative';
+            break;
+        case 'N+':
+            sentiment = 'Strong negative';
+            break;
+        default:
+            sentiment = 'No sentiment';
+    }
+    return sentiment;
+}
 // Export the handleSubmit function
-export { handleSubmit };
+export { handleSubmit, sentimentTranslator };
 
