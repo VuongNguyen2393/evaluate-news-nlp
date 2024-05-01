@@ -14,6 +14,9 @@ app.use(express.json());
 
 console.log(__dirname);
 
+// Initialize the use folder
+app.use(express.static('dist'))
+
 // Variables for url and api key
 var apiKey = process.env.API_KEY;
 
