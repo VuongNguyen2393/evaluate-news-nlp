@@ -2,11 +2,20 @@ form {
     border: 1px solid #545454;
     border-radius: 3px;
     padding: 40px;
+    display: flex;
+    justify-content: space-between;
+    background-color:yellowgreen;
+
 }
 
 input {
     padding: 5px 20px;
-    width: 100%;
+    width: 83%;
     line-height: 16px;
+    margin: 10px 0;
+}
+
+button {
+    width: 15%;
     margin: 10px 0;
 }
